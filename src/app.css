@@ -12,5 +12,5 @@ body {
 
 .area-disabled {
 	/*noinspection CssInvalidAtRule*/
-	@apply !opacity-60 active:!pointer-events-none !cursor-not-allowed;
+	@apply opacity-60 active:pointer-events-none cursor-not-allowed;
 }

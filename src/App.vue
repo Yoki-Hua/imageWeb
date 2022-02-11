@@ -58,7 +58,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 const repoLink = 'https://iimge.org'
 const repoName = 'iimge.org'
-const appName = 'KV 图床'
+const appName = 'IIMGE 图床'
 document.title = appName
 const router = useRouter()
 </script>
