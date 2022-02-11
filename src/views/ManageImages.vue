@@ -136,7 +136,7 @@ const listImages = () => {
 }
 
 onMounted(() => {
-	listImages()
+  listImages()
 })
 
 const deleteImage = (fileName: string) => {
