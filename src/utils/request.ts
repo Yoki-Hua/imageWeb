@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { ElNotification as elNotify } from 'element-plus'
 import type { UploadedImage } from './types'
-import {data} from "autoprefixer";
 
 const request = axios.create({
 	baseURL: import.meta.env.VITE_APP_API_URL,
