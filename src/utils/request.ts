@@ -20,6 +20,6 @@ request.interceptors.response.use(
 	}
 )
 
-export const requestListImages = (param:any): Promise<UploadedImage[]> => request.post('/islery/list/files?bucketName=image-islery&prefix=img&num=1&nextMarker='+param.nextMarker)
+export const requestListImages = (param:any): Promise<UploadedImage[]> => request.post('/islery/list/files?bucketName=image-islery&prefix=img&num=23&nextMarker='+param.nextMarker)
 export const requestUploadImages = (data: FormData) => request.put('/islery/upload', data)
 export const requestDeleteImage = (fileName: string):Promise<boolean> => request.delete('/islery/delete?bucketName=image-islery&fileName='+fileName)
