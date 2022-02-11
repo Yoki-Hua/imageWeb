@@ -1,0 +1,16 @@
+/*noinspection CssInvalidAtRule*/
+@tailwind base;
+/*noinspection CssInvalidAtRule*/
+@tailwind components;
+/*noinspection CssInvalidAtRule*/
+@tailwind utilities;
+
+body {
+	/*noinspection CssInvalidAtRule*/
+	@apply scroll-smooth text-base bg-slate-300 select-none overflow-x-hidden;
+}
+
+.area-disabled {
+	/*noinspection CssInvalidAtRule*/
+	@apply !opacity-60 active:!pointer-events-none !cursor-not-allowed;
+}
