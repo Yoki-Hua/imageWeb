@@ -69,7 +69,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogFormVisible = false">返回</el-button>
-        <el-button type="primary" @click="login(this.form)"
+        <el-button type="primary" @click="login(form)"
         >提交</el-button
         >
       </span>
