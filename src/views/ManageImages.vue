@@ -107,7 +107,12 @@ const listImages = () => {
     nextMarker:"img/"+ nextMarker.value
   }
 	loading.value = true
-	requestListImages(param)
+  let token = {};
+  let tokenString = window.localStorage.getItem("token");
+  token={
+    "token":tokenString
+  }
+	requestListImages(param,token)
 		.then((data) => {
       let imgArr = data.map(item => {
         let obj = {
@@ -116,18 +121,19 @@ const listImages = () => {
           createDate: item.createDate,
           fileName: item.fileName
         }
-        console.log(new Date(item.createDate))
         return obj;
       });
       if (imgArr.length != 0) {
+
         nextDisabled.value=false;
         uploadedImages.value = imgArr;
       } else {
         nextDisabled.value=true;
       }
-			// uploadedImages.value = data.sort((a, b) =>
+      //不要排序  否则翻页会乱
+      // uploadedImages.value = uploadedImages.value.sort((a, b) =>
       //     new Date(a.createDate) > new Date(b.createDate)  ? -1 : new Date(b.createDate) >  new Date(a.createDate) ? 1 : 0
-			// )
+      // )
 		})
 		.catch(() => {})
 		.finally(() => {
@@ -140,8 +146,13 @@ onMounted(() => {
 })
 
 const deleteImage = (fileName: string) => {
+  let token = {};
+  let tokenString = window.localStorage.getItem("token");
+  token={
+    "token":tokenString
+  }
 	const absFileName = "img/"+fileName;
-	requestDeleteImage(absFileName).then((res) => {
+	requestDeleteImage(absFileName,token).then((res) => {
 		uploadedImages.value = uploadedImages.value.filter((item) => item.fileName !== absFileName)
     if (res){
       elNotify({
