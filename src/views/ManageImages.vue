@@ -103,6 +103,7 @@ const changePage=(num:number)=>{
 }
 
 const listImages = () => {
+  var reg = /\.(png|jpg|jpeg)$/g;
   let param = {
     nextMarker:"img/"+ nextMarker.value
   }
@@ -116,7 +117,7 @@ const listImages = () => {
 		.then((data) => {
       let imgArr = data.map(item => {
         let obj = {
-          src: "https://image-islery.obs.cn-south-1.myhuaweicloud.com/img/"+item.fileName+"?x-image-process=style/style-webp",
+          src: (item.fileName.match(reg)!=null) ? ("https://image-islery.obs.cn-south-1.myhuaweicloud.com/img/"+item.fileName+"?x-image-process=style/style-webp"):("https://image-islery.obs.cn-south-1.myhuaweicloud.com/img/"+item.fileName),
           fileSize: item.fileSize,
           createDate: item.createDate,
           fileName: item.fileName
