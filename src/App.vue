@@ -8,7 +8,7 @@
 					<div class="mx-auto max-w-6xl px-4 h-full flex items-center">
             <div
                 :class="{
-								'bg-slate-300': $route.path === '/up'
+
 							}"
                 class="px-3 py-2 rounded-md mr-2 text-gray-800 text-sm cursor-pointer"
                 @click="check"
@@ -18,8 +18,14 @@
 						<div class="text-lg">
 							{{ appName }}
 						</div>
-						<div class="flex-1"></div>
-
+            <div
+                v-show="flagLogOut"
+                class="px-3 py-2 rounded-md mr-2 text-gray-800 text-sm cursor-pointer"
+                @click="logOut"
+            >
+              <span  style="font-size:12px;color: grey;"> 退出登录</span>
+            </div>
+						<div class="flex-1"> </div>
 						<div
 							:class="{
 								'bg-slate-300': $route.path === '/up'
@@ -57,12 +63,12 @@
 		</div>
 	</el-config-provider>
 <!--  dialog-->
-  <el-dialog center    v-model="dialogFormVisible" title="登录">
-    <el-form :model="form">
-      <el-form-item label="用户名" :label-width="formLabelWidth">
+  <el-dialog center    v-model="dialogFormVisible" title="登录" >
+    <el-form :model="form" label-width="60px">
+      <el-form-item label="用户名">
         <el-input v-model="form.username" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密 码" :label-width="formLabelWidth">
+      <el-form-item label="密 码" >
         <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
@@ -81,9 +87,10 @@
 import {ElNotification as elNotify} from "element-plus";
 import { faCog, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'vue-router'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import { ElScrollbar, ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import {reactive,ref} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import {$ref} from "vue/macros";
 import {requestLogin} from "./utils/request";
 const repoLink = 'https://iimge.org'
@@ -91,11 +98,11 @@ const dialogTableVisible = ref(false)
 const dialogFormVisible = ref(false)
 const repoName = 'iimge.org'
 const appName = 'IIMGE 图床'
+const flagLogOut=ref(false)
 document.title = appName
 const form = reactive({
   username: '',
   password:''
-
 })
 const destroy=ref(true);
 const router = useRouter()
@@ -111,7 +118,6 @@ if (username){
 }else{
   dialogFormVisible.value=true ;
 }
-
 }
 const login=(body: any)=>{
   dialogFormVisible.value =false;
@@ -126,6 +132,7 @@ const login=(body: any)=>{
       })
       form.username = '';
       form.password='';
+      flagLogOut.value=true
     }
 
   }).catch(err=>{
@@ -137,6 +144,52 @@ const login=(body: any)=>{
   })
 
 }
+const  logOut=()=>{
+  ElMessageBox.confirm(
+      '确认登出吗？',
+      '退出登录',
+      {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        let username= window.localStorage.getItem("username");
+        let token =window.localStorage.getItem("token");
+        if (username || token) {
+          window.localStorage.removeItem("username");
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          elNotify({
+            title: '退出成功！',
+            message: `退出成功！`,
+            type: 'success'
+          })
+        }else{
+          elNotify({
+            title: '尚未登录！',
+            message: `请登录！`,
+            type: 'warning'
+          })
+        }
+        flagLogOut.value=false;
+      })
+      .catch(() => {
+      })
+
+
+}
+onMounted(()=>{
+  let username= window.localStorage.getItem("username");
+  let token =window.localStorage.getItem("token");
+  if (username || token) {
+    flagLogOut.value=true;
+  }
+
+})
+
+
 </script>
 <style>
 .el-button--text {
@@ -151,4 +204,5 @@ const login=(body: any)=>{
 .dialog-footer button:first-child {
   margin-right: 10px;
 }
+
 </style>
